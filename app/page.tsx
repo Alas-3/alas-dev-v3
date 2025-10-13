@@ -616,7 +616,7 @@ function ProjectsContent() {
       description:
         "A previous version of my personal portfolio website with an emphasis on design, animations, transitions, and micro-interactions.",
       tech: ["React", "Next.js", "SEO", "Tailwind CSS"],
-      link: "https://acelabador.vercel.app/",
+      link: "https://acelabadorv1.vercel.app/",
     },
   ];
   const handleProjectClick = (link: string) => {
