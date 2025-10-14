@@ -128,14 +128,14 @@ export default function Portfolio() {
             <div className="text-6xl font-bold text-foreground rounded-full w-28 h-28 flex items-center justify-center bg-primary/10 border-2 border-primary/20">
               <Image
                 src="/images/herologo.png"
-                alt="John Doe"
+                alt="Ace Labador"
                 width={100}
                 height={100}
               />
             </div>
           </Card>
 
-          <Card className="md:col-span-8 p-6 md:p-8 flex flex-col justify-center glass-card glass-highlight">
+          <Card className="md:col-span-8 p-6 md:p-8 flex flex-col justify-center glass-card glass-highlight depth-panel">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-balance leading-tight text-center md:text-left gradient-text">
               Ace Labador
             </h1>
@@ -144,7 +144,7 @@ export default function Portfolio() {
             </p>
           </Card>
 
-          <Card className="md:col-span-2 p-4 glass-card glass-highlight flex items-center justify-center">
+          <Card className="md:col-span-2 p-4 glass-card glass-highlight   flex items-center justify-center">
             <div className="flex md:grid md:grid-cols-2 gap-3">
               <a
                 href="https://www.linkedin.com/in/alasdev"
@@ -170,7 +170,11 @@ export default function Portfolio() {
               </a>
               <button
                 onClick={() =>
-                  window.open("/Work Resume-Labador, Christopher Ace.pdf", "_blank", "noopener,noreferrer")
+                  window.open(
+                    "/Work Resume-Labador, Christopher Ace.pdf",
+                    "_blank",
+                    "noopener,noreferrer"
+                  )
                 }
                 className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 hover:bg-primary/20 transition-colors"
               >
@@ -181,7 +185,7 @@ export default function Portfolio() {
 
           <Card
             ref={mobileNavRef}
-            className="md:hidden col-span-1 p-4 glass-card glass-highlight"
+            className="md:hidden col-span-1 p-4 glass-card glass-highlight  "
           >
             <div className="flex gap-3 justify-center">
               <Button
@@ -242,7 +246,7 @@ export default function Portfolio() {
             {activeSection === "projects" && <ProjectsContent />}
           </div>
 
-          <Card className="hidden md:flex md:col-span-2 p-4 flex-col gap-3 justify-center items-center glass-card glass-highlight">
+          <Card className="hidden md:flex md:col-span-2 p-4 flex-col gap-3 justify-center items-center glass-card glass-highlight  ">
             <Button
               variant={activeSection === "home" ? "default" : "ghost"}
               size="icon"
@@ -301,7 +305,7 @@ export default function Portfolio() {
 function HomeContent() {
   return (
     <>
-      <Card className="col-span-1 md:col-span-5 p-6 md:p-8 glass-card glass-highlight">
+      <Card className="col-span-1 md:col-span-5 p-6 md:p-8 glass-card glass-highlight  ">
         <div className="space-y-6">
           <div>
             <div className="h-1 w-24 bg-primary rounded-full mb-6" />
@@ -317,7 +321,11 @@ function HomeContent() {
           <Button
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             onClick={() =>
-              window.open("/Work Resume-Labador, Christopher Ace.pdf", "_blank", "noopener,noreferrer")
+              window.open(
+                "/Work Resume-Labador, Christopher Ace.pdf",
+                "_blank",
+                "noopener,noreferrer"
+              )
             }
           >
             View Resume
@@ -325,7 +333,7 @@ function HomeContent() {
         </div>
       </Card>
 
-      <Card className="hidden md:flex col-span-1 md:col-span-5 p-6 md:p-8 glass-card glass-highlight">
+      <Card className="hidden md:flex col-span-1 md:col-span-5 p-6 md:p-8 glass-card glass-highlight  ">
         <div className="w-full">
           <h3 className="text-2xl font-bold mb-6">Tech Stack</h3>
           <div className="flex flex-wrap gap-3">
@@ -359,7 +367,7 @@ function HomeContent() {
         </div>
       </Card>
 
-      <Card className="md:flex col-span-1 md:col-span-3 p-6 md:p-8 glass-card glass-highlight flex-col justify-center">
+      <Card className="md:flex col-span-1 md:col-span-3 p-6 md:p-8 glass-card glass-highlight   flex-col justify-center">
         <div className="flex flex-row md:flex-col justify-between items-center gap-0 md:gap-6">
           <div className="text-center">
             <div className="text-4xl font-bold text-primary mb-2">3+</div>
@@ -376,7 +384,7 @@ function HomeContent() {
         </div>
       </Card>
 
-      <Card className="md:hidden col-span-1 p-6 glass-card glass-highlight">
+      <Card className="md:hidden col-span-1 p-6 glass-card glass-highlight  ">
         <h3 className="text-2xl font-bold mb-6">Tech Stack</h3>
         <div className="flex flex-wrap gap-3">
           {[
@@ -408,7 +416,7 @@ function HomeContent() {
         </div>
       </Card>
 
-      <Card className="col-span-1 md:col-span-7 p-6 md:p-8 glass-card glass-highlight">
+      <Card className="col-span-1 md:col-span-7 p-6 md:p-8 glass-card glass-highlight  ">
         <h3 className="text-2xl font-bold mb-4">What I Do</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -511,7 +519,7 @@ function WorkContent() {
 
   return (
     <>
-      <Card className="col-span-1 md:col-span-10 p-6 md:p-10 glass-card glass-highlight relative md:h-full md:overflow-hidden">
+      <Card className="col-span-1 md:col-span-10 p-6 md:p-10 glass-card glass-highlight   relative md:h-full md:overflow-hidden">
         <h2 className="text-3xl font-bold mb-8">Work Experience</h2>
         <div className="md:max-h-[calc(100%-5rem)] md:overflow-y-auto md:pr-4 custom-scrollbar-hide-on-hover">
           <div className="space-y-8">
@@ -631,14 +639,16 @@ function ProjectsContent() {
 
   return (
     <>
-      <Card className="col-span-1 md:col-span-10 p-6 md:p-8 glass-card glass-highlight md:h-full md:overflow-y-auto">
+      <Card className="col-span-1 md:col-span-10 p-6 md:p-8 glass-card glass-highlight   md:h-full md:overflow-y-auto">
         <h2 className="text-3xl font-bold mb-6">Featured Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {projects.map((project, index) => (
             <div
               key={index}
-              className={`p-5 rounded-xl bg-secondary/30 border border-border/50 glass-highlight ${
-                hasValidLink(project.link) ? "cursor-pointer hover:border-primary/50 transition-colors" : ""
+              className={`p-5 rounded-xl bg-secondary/80 border border-border/50 glass-highlight   ${
+                hasValidLink(project.link)
+                  ? "cursor-pointer hover:border-primary/50 transition-colors"
+                  : ""
               }`}
               onClick={() => handleProjectClick(project.link)}
             >
@@ -673,8 +683,7 @@ function ProjectsContent() {
 function CredentialsContent() {
   const credentials = [
     {
-      title:
-        "US-ASEAN Industry Professional Credentials Track",
+      title: "US-ASEAN Industry Professional Credentials Track",
       issuer: "Arizona State University & U.S. Department of State",
       date: "2024",
       type: "Professional Certificate",
@@ -946,12 +955,12 @@ function CredentialsContent() {
             {credentials.map((cert, index) => (
               <div
                 key={index}
-                className="p-5 rounded-xl bg-secondary/30 border border-border/50 relative glass-highlight md:h-[160px] h-auto min-h-[140px] flex flex-col"
+                className="p-5 rounded-xl bg-secondary/80 border border-border/50 relative glass-highlight   md:h-[160px] h-auto min-h-[140px] flex flex-col"
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1 pr-2">
-                    <h4 
-                      className="font-semibold text-lg line-clamp-2 hover:line-clamp-none" 
+                    <h4
+                      className="font-semibold text-lg line-clamp-2 hover:line-clamp-none"
                       title={cert.title}
                     >
                       {cert.title}
