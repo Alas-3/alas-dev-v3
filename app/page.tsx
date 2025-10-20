@@ -339,22 +339,22 @@ function HomeContent() {
           <div className="flex flex-wrap gap-3">
             {[
               "React",
-      "Next.js",
-      "TypeScript",
-      "Vite",
-      "Tailwind",
-      "Redux",
-      "Node.js",
-      "Express",
-      "PHP",
-      "Python",
-      "MySQL",
-      "NoSQL",
-      "PostgreSQL", 
-      "Supabase",
-      "Firebase",
-      "MongoDB",
-      "Axios"
+              "Next.js",
+              "TypeScript",
+              "Vite",
+              "Tailwind",
+              "Redux",
+              "Node.js",
+              "Express",
+              "PHP",
+              "Python",
+              "MySQL",
+              "NoSQL",
+              "PostgreSQL",
+              "Supabase",
+              "Firebase",
+              "MongoDB",
+              "Axios",
             ].map((tech) => (
               <Badge
                 key={tech}
@@ -389,23 +389,23 @@ function HomeContent() {
         <h3 className="text-2xl font-bold mb-6">Tech Stack</h3>
         <div className="flex flex-wrap gap-2">
           {[
-             "React",
-      "Next.js",
-      "TypeScript",
-      "Vite",
-      "Tailwind",
-      "Redux",
-      "Node.js",
+            "React",
+            "Next.js",
+            "TypeScript",
+            "Vite",
+            "Tailwind",
+            "Redux",
+            "Node.js",
             "PHP",
-      "Express",
-      "Python",
-      "MySQL",
-      "NoSQL",
-      "PostgreSQL", 
-      "Supabase",
-      "Firebase",
-      "MongoDB",
-      "Axios"
+            "Express",
+            "Python",
+            "MySQL",
+            "NoSQL",
+            "PostgreSQL",
+            "Supabase",
+            "Firebase",
+            "MongoDB",
+            "Axios",
           ].map((tech) => (
             <Badge
               key={tech}
@@ -597,7 +597,15 @@ function ProjectsContent() {
       title: "E-Registrar",
       description:
         "A Full Stack Queue Management Kiosk System for school segistrars to streamline and automate the operational process in school registrars offices complete with desktop application and kiosk system.",
-      tech: ["React", "Electron", "Node.js", "Tailwind CSS", "Firebase", "EmailJS", "Twilio"],
+      tech: [
+        "React",
+        "Electron",
+        "Node.js",
+        "Tailwind CSS",
+        "Firebase",
+        "EmailJS",
+        "Twilio",
+      ],
       link: "#",
     },
     {
