@@ -339,21 +339,22 @@ function HomeContent() {
           <div className="flex flex-wrap gap-3">
             {[
               "React",
-              "Next.js",
-              "TypeScript",
-              "Vite",
-              "PHP",
-              "Python",
-              "Node.js",
-              "Tailwind CSS",
-              "PostgreSQL",
-              "Supabase",
-              "Firebase",
-              "Express",
-              "Redux",
-              "Axios",
-              "MySQL",
-              "NoSQL",
+      "Next.js",
+      "TypeScript",
+      "Vite",
+      "Tailwind",
+      "Redux",
+      "Node.js",
+      "Express",
+      "PHP",
+      "Python",
+      "MySQL",
+      "NoSQL",
+      "PostgreSQL", 
+      "Supabase",
+      "Firebase",
+      "MongoDB",
+      "Axios"
             ].map((tech) => (
               <Badge
                 key={tech}
@@ -371,13 +372,13 @@ function HomeContent() {
         <div className="flex flex-row md:flex-col justify-between items-center gap-0 md:gap-6">
           <div className="text-center">
             <div className="text-4xl font-bold text-primary mb-2">3+</div>
-            <div className="text-muted-foreground text-sm">
-              Years Experience
+            <div className="text-muted-foreground text-xs md:text-sm">
+              Years in Web Development
             </div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold text-accent mb-2">500+</div>
-            <div className="text-muted-foreground text-sm">
+            <div className="text-4xl font-bold text-accent mb-2">700+</div>
+            <div className="text-muted-foreground text-xs md:text-sm">
               Commits & Contributions
             </div>
           </div>
@@ -386,24 +387,25 @@ function HomeContent() {
 
       <Card className="md:hidden col-span-1 p-6 glass-card glass-highlight  ">
         <h3 className="text-2xl font-bold mb-6">Tech Stack</h3>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2">
           {[
-            "React",
-            "Next.js",
-            "TypeScript",
-            "Vite",
+             "React",
+      "Next.js",
+      "TypeScript",
+      "Vite",
+      "Tailwind",
+      "Redux",
+      "Node.js",
             "PHP",
-            "Python",
-            "Node.js",
-            "Tailwind CSS",
-            "PostgreSQL",
-            "Supabase",
-            "Firebase",
-            "Express",
-            "Redux",
-            "Axios",
-            "MySQL",
-            "NoSQL",
+      "Express",
+      "Python",
+      "MySQL",
+      "NoSQL",
+      "PostgreSQL", 
+      "Supabase",
+      "Firebase",
+      "MongoDB",
+      "Axios"
           ].map((tech) => (
             <Badge
               key={tech}
@@ -595,7 +597,7 @@ function ProjectsContent() {
       title: "E-Registrar",
       description:
         "A Full Stack Queue Management Kiosk System for school segistrars to streamline and automate the operational process in school registrars offices complete with desktop application and kiosk system.",
-      tech: ["React", "Electron", "Node.js", "Tailwind CSS", "Firebase"],
+      tech: ["React", "Electron", "Node.js", "Tailwind CSS", "Firebase", "EmailJS", "Twilio"],
       link: "#",
     },
     {
