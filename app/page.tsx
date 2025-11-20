@@ -371,7 +371,7 @@ function HomeContent() {
       <Card className="md:flex col-span-1 md:col-span-3 p-6 md:p-8 glass-card glass-highlight   flex-col justify-center">
         <div className="flex flex-row md:flex-col justify-between items-center gap-0 md:gap-6">
           <div className="text-center">
-            <div className="text-4xl font-bold text-primary mb-2">3+</div>
+            <div className="text-4xl font-bold text-primary mb-2">4+</div>
             <div className="text-muted-foreground text-xs md:text-sm">
               Years in Web Development
             </div>
@@ -748,6 +748,14 @@ function CredentialsContent() {
         "https://www.credly.com/badges/fde0d473-a43b-48f2-983f-ee4edf516740/public_url",
     },
     {
+      title: "IT Specialist - Python",
+      issuer: "Certiport",
+      date: "2025",
+      type: "Professional Certification",
+      verifyLink:
+        "https://www.credly.com/badges/f0e37d58-6a1a-454d-99f9-24a37c46e020/public_url",
+    },
+    {
       title: "Node.js & MongoDB: Developing Back-end Database Applications",
       issuer: "IBM / Coursera",
       date: "2025",
@@ -939,14 +947,6 @@ function CredentialsContent() {
       date: "2023",
       type: "Professional Certification",
       verifyLink: "/images/pythoncert.pdf",
-    },
-    {
-      title: "IT Specialist - Python",
-      issuer: "Certiport",
-      date: "2023",
-      type: "Professional Certification",
-      verifyLink:
-        "https://www.credly.com/badges/f0e37d58-6a1a-454d-99f9-24a37c46e020/public_url",
     },
   ];
 
