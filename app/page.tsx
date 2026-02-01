@@ -596,7 +596,7 @@ function ProjectsContent() {
     {
       title: "E-Registrar",
       description:
-        "A Full Stack Queue Management Kiosk System for school segistrars to streamline and automate the operational process in school registrars offices complete with desktop application and kiosk system.",
+        "A Full Stack Queue Management Kiosk System for school registrars to streamline and automate the operational process in school registrars offices complete with desktop application and kiosk system.",
       tech: [
         "React",
         "Electron",
@@ -618,7 +618,7 @@ function ProjectsContent() {
     {
       title: "Syrincal System",
       description:
-        "A Full-Stack B2B Ordering platform, Supply Chain Management, Inventory System & Delivery Tracker for Syrincal Trading OPC.",
+        "A Full-Stack Private B2B Ordering Platform, Supply Chain Management, Inventory System & Delivery Tracker for Syrincal Trading OPC.",
       tech: [
         "Next.js",
         "Supabase",
