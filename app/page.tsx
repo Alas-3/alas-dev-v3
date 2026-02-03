@@ -16,15 +16,27 @@ import {
   Mail,
   FileText,
 } from "lucide-react";
+import { LoadingScreen } from "@/components/LoadingScreen";
+import { motion, AnimatePresence } from "framer-motion";
 
 type Section = "home" | "work" | "credentials" | "projects";
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState<Section>("home");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const mobileNavRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Force scroll to top on mount
+    if (typeof window !== "undefined") {
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsScrolled(!entry.isIntersecting);
@@ -44,18 +56,22 @@ export default function Portfolio() {
         observer.unobserve(mobileNavRef.current);
       }
     };
-  }, []);
+  }, [isLoaded]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const isMobile = window.matchMedia("(max-width: 767px)").matches;
     if (!isMobile) return;
 
+    // Scroll to top if user is scrolled down (e.g. using sticky nav)
+    // If user is already at the top, do not scroll down to content
     setTimeout(() => {
-      document.documentElement.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+        if (window.scrollY > 100) {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
     }, 100);
   }, [activeSection]);
 
@@ -64,65 +80,79 @@ export default function Portfolio() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8 flex items-center">
-      <div
-        className={`md:hidden fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border/50 transition-transform duration-300 ${
-          isScrolled ? "translate-y-0" : "-translate-y-full"
-        }`}
-      >
-        <div className="flex gap-2 justify-center p-3">
-          <Button
-            variant={activeSection === "home" ? "default" : "ghost"}
-            size="icon"
-            className={`h-12 w-12 rounded-xl ${
-              activeSection === "home"
-                ? ""
-                : "hover:bg-transparent hover:border-2 hover:border-primary/50"
-            }`}
-            onClick={() => handleSectionChange("home")}
-          >
-            <Home className="h-6 w-6" />
-          </Button>
-          <Button
-            variant={activeSection === "work" ? "default" : "ghost"}
-            size="icon"
-            className={`h-12 w-12 rounded-xl ${
-              activeSection === "work"
-                ? ""
-                : "hover:bg-transparent hover:border-2 hover:border-primary/50"
-            }`}
-            onClick={() => handleSectionChange("work")}
-          >
-            <Briefcase className="h-6 w-6" />
-          </Button>
-          <Button
-            variant={activeSection === "credentials" ? "default" : "ghost"}
-            size="icon"
-            className={`h-12 w-12 rounded-xl ${
-              activeSection === "credentials"
-                ? ""
-                : "hover:bg-transparent hover:border-2 hover:border-primary/50"
-            }`}
-            onClick={() => handleSectionChange("credentials")}
-          >
-            <Award className="h-6 w-6" />
-          </Button>
-          <Button
-            variant={activeSection === "projects" ? "default" : "ghost"}
-            size="icon"
-            className={`h-12 w-12 rounded-xl ${
-              activeSection === "projects"
-                ? ""
-                : "hover:bg-transparent hover:border-2 hover:border-primary/50"
-            }`}
-            onClick={() => handleSectionChange("projects")}
-          >
-            <FolderGit2 className="h-6 w-6" />
-          </Button>
-        </div>
-      </div>
+    <div className="min-h-screen p-4 md:p-8 flex items-center relative isolation-auto overflow-hidden">
+      <LoadingScreen onLoadingComplete={() => setIsLoaded(true)} />
 
-      <div className="mx-auto max-w-7xl w-full">
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: -50 }}
+        transition={{ duration: 0.5 }}
+              className={`md:hidden fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border/50 transition-transform duration-300 ${
+                isScrolled ? "translate-y-0" : "-translate-y-full"
+              }`}
+            >
+              <div className="flex gap-2 justify-center p-3">
+                <Button
+                  variant={activeSection === "home" ? "default" : "ghost"}
+                  size="icon"
+                  className={`h-12 w-12 rounded-xl ${
+                    activeSection === "home"
+                      ? ""
+                      : "hover:bg-transparent hover:border-2 hover:border-primary/50 hover:text-primary"
+                  }`}
+                  onClick={() => handleSectionChange("home")}
+                >
+                  <Home className="h-6 w-6" />
+                </Button>
+                <Button
+                  variant={activeSection === "work" ? "default" : "ghost"}
+                  size="icon"
+                  className={`h-12 w-12 rounded-xl ${
+                    activeSection === "work"
+                      ? ""
+                      : "hover:bg-transparent hover:border-2 hover:border-primary/50 hover:text-primary"
+                  }`}
+                  onClick={() => handleSectionChange("work")}
+                >
+                  <Briefcase className="h-6 w-6" />
+                </Button>
+                <Button
+                  variant={activeSection === "credentials" ? "default" : "ghost"}
+                  size="icon"
+                  className={`h-12 w-12 rounded-xl ${
+                    activeSection === "credentials"
+                      ? ""
+                      : "hover:bg-transparent hover:border-2 hover:border-primary/50 hover:text-primary"
+                  }`}
+                  onClick={() => handleSectionChange("credentials")}
+                >
+                  <Award className="h-6 w-6" />
+                </Button>
+                <Button
+                  variant={activeSection === "projects" ? "default" : "ghost"}
+                  size="icon"
+                  className={`h-12 w-12 rounded-xl ${
+                    activeSection === "projects"
+                      ? ""
+                      : "hover:bg-transparent hover:border-2 hover:border-primary/50 hover:text-primary"
+                  }`}
+                  onClick={() => handleSectionChange("projects")}
+                >
+                  <FolderGit2 className="h-6 w-6" />
+                </Button>
+              </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0, filter: "blur(10px)" }}
+        animate={
+          isLoaded
+            ? { scale: 1, opacity: 1, filter: "blur(0px)" }
+            : { scale: 0.9, opacity: 0, filter: "blur(10px)" }
+        }
+        transition={{ duration: 0.8, ease: "easeOut" }}
+              className="mx-auto max-w-7xl w-full"
+            >
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
           <Card className="md:col-span-2 p-6 flex items-center justify-center glass-card glass-highlight">
             <div className="text-6xl font-bold text-foreground rounded-full w-28 h-28 flex items-center justify-center bg-primary/10 border-2 border-primary/20">
@@ -194,7 +224,7 @@ export default function Portfolio() {
                 className={`h-12 w-12 rounded-xl ${
                   activeSection === "home"
                     ? ""
-                    : "hover:bg-transparent hover:border-2 hover:border-primary/50"
+                    : "hover:bg-transparent hover:border-2 hover:border-primary/50 hover:text-primary"
                 }`}
                 onClick={() => handleSectionChange("home")}
               >
@@ -206,7 +236,7 @@ export default function Portfolio() {
                 className={`h-12 w-12 rounded-xl ${
                   activeSection === "work"
                     ? ""
-                    : "hover:bg-transparent hover:border-2 hover:border-primary/50"
+                    : "hover:bg-transparent hover:border-2 hover:border-primary/50 hover:text-primary"
                 }`}
                 onClick={() => handleSectionChange("work")}
               >
@@ -218,7 +248,7 @@ export default function Portfolio() {
                 className={`h-12 w-12 rounded-xl ${
                   activeSection === "credentials"
                     ? ""
-                    : "hover:bg-transparent hover:border-2 hover:border-primary/50"
+                    : "hover:bg-transparent hover:border-2 hover:border-primary/50 hover:text-primary"
                 }`}
                 onClick={() => handleSectionChange("credentials")}
               >
@@ -230,7 +260,7 @@ export default function Portfolio() {
                 className={`h-12 w-12 rounded-xl ${
                   activeSection === "projects"
                     ? ""
-                    : "hover:bg-transparent hover:border-2 hover:border-primary/50"
+                    : "hover:bg-transparent hover:border-2 hover:border-primary/50 hover:text-primary"
                 }`}
                 onClick={() => handleSectionChange("projects")}
               >
@@ -239,7 +269,7 @@ export default function Portfolio() {
             </div>
           </Card>
 
-          <div className="col-span-1 md:col-span-10 md:h-[700px] grid grid-cols-1 md:grid-cols-10 gap-4 md:gap-6">
+          <div ref={contentRef} className="col-span-1 md:col-span-10 md:h-[700px] grid grid-cols-1 md:grid-cols-10 gap-4 md:gap-6">
             {activeSection === "home" && <HomeContent />}
             {activeSection === "work" && <WorkContent />}
             {activeSection === "credentials" && <CredentialsContent />}
@@ -297,7 +327,7 @@ export default function Portfolio() {
             </Button>
           </Card>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
