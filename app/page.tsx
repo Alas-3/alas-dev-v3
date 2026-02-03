@@ -16,7 +16,7 @@ import {
   Mail,
   FileText,
 } from "lucide-react";
-import { LoadingScreen } from "@/components/LoadingScreen";
+import { LoadingScreen } from "@/components/SplashScreen";
 import { motion, AnimatePresence } from "framer-motion";
 
 type Section = "home" | "work" | "credentials" | "projects";
