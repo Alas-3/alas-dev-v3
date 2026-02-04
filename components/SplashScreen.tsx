@@ -14,7 +14,7 @@ interface LoadingScreenProps {
 }
 
 export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
-  const [phase, setPhase] = useState<"loading" | "exiting" | "background">("loading");
+  const [phase, setPhase] = useState<"loading" | "exiting" | "hidden" | "background">("loading");
   
   // Total rows to cover screen + buffer for tilt
   const rowCount = 20;
@@ -23,29 +23,36 @@ export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
   const rowText = Array.from({ length: 30 }, () => "Alas").join("   ");
 
   useEffect(() => {
-    // Phase 1: Loading (Single Fast cycle) -> Exiting
-    // 2000ms is roughly one full cycle duration for the user to register it
+    // Phase 1: Loading -> Exiting
     const exitTimer = setTimeout(() => {
         setPhase("exiting");
-    }, 2000);
+    }, 3500);
 
     return () => clearTimeout(exitTimer);
   }, []);
 
   useEffect(() => {
       if (phase === "exiting") {
-        // Reduced wait time to 800ms to quicken re-entry
-        const backgroundTimer = setTimeout(() => {
+        // After exit animation completes, hide completely and show content
+        const hiddenTimer = setTimeout(() => {
             if (onLoadingComplete) onLoadingComplete();
+            setPhase("hidden");
+        }, 1800); // Match the exit animation duration
+        return () => clearTimeout(hiddenTimer);
+      }
+      
+      if (phase === "hidden") {
+        // After content has time to render, bring back as background
+        const backgroundTimer = setTimeout(() => {
             setPhase("background");
-        }, 800); 
+        }, 800); // Delay before background slides back in
         return () => clearTimeout(backgroundTimer);
       }
   }, [phase, onLoadingComplete]);
 
   // Lock body scroll during loading/exiting
   useEffect(() => {
-    if (phase !== "background") {
+    if (phase === "loading" || phase === "exiting") {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -54,6 +61,11 @@ export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
       document.body.style.overflow = "";
     };
   }, [phase]);
+
+  // Don't render anything during hidden phase
+  if (phase === "hidden") {
+    return null;
+  }
 
   return (
     <div
@@ -78,45 +90,46 @@ export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
   );
 };
 
-const Row = ({ text, isEven, phase }: { text: string; isEven: boolean; phase: "loading" | "exiting" | "background" }) => {
+const Row = ({ text, isEven, phase }: { text: string; isEven: boolean; phase: "loading" | "exiting" | "hidden" | "background" }) => {
     // Variants for the animation sequence
     const variants: Variants = {
         loading: {
-            x: isEven ? ["0%", "-25%"] : ["-25%", "0%"],
+            x: isEven ? ["0%", "-15%"] : ["-15%", "0%"],
             opacity: 1,
             transition: {
                 x: {
                     repeat: Infinity,
-                    duration: 4, 
+                    repeatType: "reverse",
+                    duration: 8,
                     ease: "easeInOut"
                 },
                 opacity: { duration: 0.5 }
             }
         },
         exiting: {
-            // Slide completely off screen. Increased to 150% to ensure clearance.
-            x: isEven ? "-150%" : "150%", 
+            x: isEven ? "-120%" : "120%",
             opacity: 1,
             transition: {
-                duration: 1.2, 
-                ease: "easeInOut"
+                duration: 1.8,
+                ease: [0.4, 0, 0.2, 1]
             }
         },
         background: {
-            // Fast entry then slow drift
-            x: isEven ? ["-150%", "-25%", "35%"] : ["150%", "0%", "-60%"],
+            // Slide in from off-screen, then do perpetual back-and-forth
+            x: isEven 
+                ? ["-120%", "-25%", "0%", "-15%"] // Slide in from left, then oscillate
+                : ["120%", "0%", "-15%", "0%"],   // Slide in from right, then oscillate
             opacity: 0.05, 
             transition: {
                 x: {
+                    times: [0, 0.05, 0.525, 1], // First 5% is slide-in, rest is oscillation
                     repeat: Infinity,
-                    duration: 120, // 2 minutes
-                    ease: "linear",
-                    times: [0, 0.02, 1], // 2% of time (2.4s) to enter, then drift
-                    delay: 0
+                    repeatType: "reverse",
+                    duration: 40, // Full cycle duration
+                    ease: "linear"
                 },
                 opacity: { 
-                    duration: 1.5,
-                    delay: 0.2 
+                    duration: 1.2
                 }
             }
         }
@@ -125,7 +138,7 @@ const Row = ({ text, isEven, phase }: { text: string; isEven: boolean; phase: "l
     return (
         <motion.div
             className={`${audiowide.className} text-4xl md:text-6xl text-[#F5F5DC] whitespace-nowrap`}
-            style={{ marginLeft: isEven ? "-25vw" : "0" }}
+            style={{ marginLeft: isEven ? "-25vw" : "0" }} // Maintains the uneven offset look
             variants={variants}
             animate={phase}
         >
