@@ -170,7 +170,7 @@ export default function Portfolio() {
               Ace Labador
             </h1>
             <p className="text-lg md:text-xl mt-[-2rem] text-center md:text-left gradient-text-muted">
-              Software Engineer
+              Software Developer
             </p>
           </Card>
 
@@ -343,7 +343,7 @@ function HomeContent() {
           </div>
 
           <p className="text-muted-foreground leading-relaxed text-pretty">
-            A software engineer with over three years of experience in web
+            A software developer with over four years of experience in web
             development. I hold multiple certificates from leading tech
             organizations such as IBM, Google, Meta, Amazon, GitHub, and others.
           </p>
