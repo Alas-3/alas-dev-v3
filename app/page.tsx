@@ -201,7 +201,7 @@ export default function Portfolio() {
               <button
                 onClick={() =>
                   window.open(
-                    "/Work Resume-Labador, Christopher Ace.pdf",
+                    "/Labador, Christopher Ace.pdf",
                     "_blank",
                     "noopener,noreferrer"
                   )
@@ -352,7 +352,7 @@ function HomeContent() {
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             onClick={() =>
               window.open(
-                "/Work Resume-Labador, Christopher Ace.pdf",
+                "/Labador, Christopher Ace.pdf",
                 "_blank",
                 "noopener,noreferrer"
               )
