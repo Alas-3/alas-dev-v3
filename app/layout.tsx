@@ -1,8 +1,12 @@
+import type React from 'react'
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { Analytics } from '@vercel/analytics/next'
 import { JsonLd } from '@/components/JsonLd'
+import Script from 'next/script'
+import { Gtag } from '@/components/Gtag'
+// @ts-expect-error Allow global CSS side-effect import
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -86,12 +90,34 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}
         suppressHydrationWarning
       >
+        {gaId ? (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaId}', {
+                  send_page_view: false,
+                  linker: { domains: ['acelabador.vercel.app', 'acelabador.me', 'www.acelabador.me'] },
+                });
+              `}
+            </Script>
+            <Gtag />
+          </>
+        ) : null}
         <JsonLd />
         {children}
         <Analytics />
