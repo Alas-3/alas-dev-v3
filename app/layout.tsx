@@ -6,7 +6,6 @@ import { Analytics } from '@vercel/analytics/next'
 import { JsonLd } from '@/components/JsonLd'
 import Script from 'next/script'
 import { Gtag } from '@/components/Gtag'
-// @ts-expect-error Allow global CSS side-effect import
 import './globals.css'
 
 export const metadata: Metadata = {

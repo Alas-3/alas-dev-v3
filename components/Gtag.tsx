@@ -1,15 +1,14 @@
 "use client"
 
 import { useEffect } from 'react'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 export function Gtag() {
   const pathname = usePathname()
-  const searchParams = useSearchParams()
 
   useEffect(() => {
     const path = pathname ?? '/'
-    const search = searchParams?.toString()
+    const search = typeof window !== 'undefined' ? window.location.search : ''
     const pagePath = search ? `${path}?${search}` : path
 
     if (typeof window === 'undefined' || typeof window.gtag !== 'function') return
@@ -18,7 +17,7 @@ export function Gtag() {
       page_location: `${window.location.origin}${pagePath}`,
       page_path: pagePath,
     })
-  }, [pathname, searchParams])
+  }, [pathname])
 
   return null
 }
