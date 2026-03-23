@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, Variants } from "framer-motion";
+import { motion, useAnimation, Variants } from "framer-motion";
 import { Audiowide } from "next/font/google";
 
 const audiowide = Audiowide({
@@ -23,32 +23,22 @@ export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
   const rowText = Array.from({ length: 30 }, () => "Alas").join("   ");
 
   useEffect(() => {
-    // Phase 1: Loading -> Exiting
+    // Phase 1: loading -> exiting, then settle as subtle background texture.
+    let backgroundTimer: ReturnType<typeof setTimeout> | undefined;
     const exitTimer = setTimeout(() => {
+        if (onLoadingComplete) onLoadingComplete();
         setPhase("exiting");
+
+        backgroundTimer = setTimeout(() => {
+          setPhase("background");
+        }, 0);
     }, 3500);
 
-    return () => clearTimeout(exitTimer);
-  }, []);
-
-  useEffect(() => {
-      if (phase === "exiting") {
-        // After exit animation completes, hide completely and show content
-        const hiddenTimer = setTimeout(() => {
-            if (onLoadingComplete) onLoadingComplete();
-            setPhase("hidden");
-        }, 1800); // Match the exit animation duration
-        return () => clearTimeout(hiddenTimer);
-      }
-      
-      if (phase === "hidden") {
-        // After content has time to render, bring back as background
-        const backgroundTimer = setTimeout(() => {
-            setPhase("background");
-        }, 800); // Delay before background slides back in
-        return () => clearTimeout(backgroundTimer);
-      }
-  }, [phase, onLoadingComplete]);
+    return () => {
+      clearTimeout(exitTimer);
+      if (backgroundTimer) clearTimeout(backgroundTimer);
+    };
+  }, [onLoadingComplete]);
 
   // Lock body scroll during loading/exiting
   useEffect(() => {
@@ -62,15 +52,14 @@ export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
     };
   }, [phase]);
 
-  // Don't render anything during hidden phase
-  if (phase === "hidden") {
-    return null;
-  }
-
   return (
     <div
-      className={`fixed inset-0 w-full h-full overflow-hidden transition-colors duration-1000 bg-[#121212] ${
+      className={`fixed inset-0 w-full h-full overflow-hidden ${
         phase === "background" ? "z-0 pointer-events-none" : "z-50 pointer-events-auto"
+      } ${
+        phase === "exiting" || phase === "background"
+          ? "bg-transparent transition-colors duration-[1600ms]"
+          : "bg-[#121212]"
       }`}
     >
       <div className="absolute inset-0 flex flex-col justify-center items-center gap-4 md:gap-8 transform -rotate-[45deg] scale-150 origin-center select-none">
@@ -81,7 +70,8 @@ export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
                     key={row} 
                     text={rowText} 
                     isEven={isEven} 
-                    phase={phase} 
+                    phase={phase}
+                    rowIndex={row}
                 />
              );
         })}
@@ -90,59 +80,89 @@ export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
   );
 };
 
-const Row = ({ text, isEven, phase }: { text: string; isEven: boolean; phase: "loading" | "exiting" | "hidden" | "background" }) => {
-    // Variants for the animation sequence
-    const variants: Variants = {
-        loading: {
-            x: isEven ? ["0%", "-15%"] : ["-15%", "0%"],
-            opacity: 1,
-            transition: {
-                x: {
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    duration: 8,
-                    ease: "easeInOut"
-                },
-                opacity: { duration: 0.5 }
-            }
-        },
-        exiting: {
-            x: isEven ? "-120%" : "120%",
-            opacity: 1,
-            transition: {
-                duration: 1.8,
-                ease: [0.4, 0, 0.2, 1]
-            }
-        },
-        background: {
-            // Slide in from off-screen, then do perpetual back-and-forth
-            x: isEven 
-                ? ["-120%", "-25%", "0%", "-15%"] // Slide in from left, then oscillate
-                : ["120%", "0%", "-15%", "0%"],   // Slide in from right, then oscillate
-            opacity: 0.05, 
-            transition: {
-                x: {
-                    times: [0, 0.05, 0.525, 1], // First 5% is slide-in, rest is oscillation
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    duration: 40, // Full cycle duration
-                    ease: "linear"
-                },
-                opacity: { 
-                    duration: 1.2
-                }
-            }
-        }
-    };
+const Row = ({ text, isEven, phase, rowIndex }: {
+  text: string;
+  isEven: boolean;
+  phase: "loading" | "exiting" | "hidden" | "background";
+  rowIndex: number;
+}) => {
+  const controls = useAnimation();
+  const staggerDelay = rowIndex * 0.045;
 
-    return (
-        <motion.div
-            className={`${audiowide.className} text-4xl md:text-6xl text-[#F5F5DC] whitespace-nowrap`}
-            style={{ marginLeft: isEven ? "-25vw" : "0" }} // Maintains the uneven offset look
-            variants={variants}
-            animate={phase}
-        >
-            {text}
-        </motion.div>
-    );
+  useEffect(() => {
+    if (phase === "loading") {
+      controls.start({
+        x: isEven ? ["0%", "-15%"] : ["-15%", "0%"],
+        opacity: 1,
+        transition: {
+          x: {
+            repeat: Infinity,
+            repeatType: "reverse",
+            duration: 8,
+            ease: "easeInOut",
+          },
+          opacity: { duration: 0.5 },
+        },
+      });
+      return;
+    }
+
+    if (phase === "exiting") {
+      controls.start({
+        x: isEven ? "-110%" : "110%",
+        opacity: 0,
+        transition: {
+          duration: 1.6,
+          ease: [0.16, 1, 0.3, 1],
+          delay: staggerDelay,
+          opacity: {
+            duration: 1,
+            delay: staggerDelay + 0.2,
+            ease: "easeIn",
+          },
+        },
+      });
+      return;
+    }
+
+    if (phase === "background") {
+      // Snap to resting position instantly while still invisible.
+      controls.set({ x: isEven ? "0%" : "-15%" });
+
+      void controls
+        .start({
+          opacity: 0.055,
+          transition: {
+            duration: 0.6,
+            delay: 0,
+            ease: "easeOut",
+          },
+        })
+        .then(() => {
+          controls.start({
+            x: isEven ? ["0%", "-15%"] : ["-15%", "0%"],
+            transition: {
+              repeat: Infinity,
+              repeatType: "reverse",
+              duration: 10,
+              ease: "easeInOut",
+            },
+          });
+        });
+      return;
+    }
+
+    controls.start({ opacity: 0 });
+  }, [controls, isEven, phase, rowIndex, staggerDelay]);
+
+  return (
+    <motion.div
+      className={`${audiowide.className} text-4xl md:text-6xl text-[#F5F5DC] whitespace-nowrap`}
+      style={{ marginLeft: isEven ? "-25vw" : "0" }}
+      initial={{ opacity: 0, x: isEven ? "-120%" : "120%" }}
+      animate={controls}
+    >
+      {text}
+    </motion.div>
+  );
 };

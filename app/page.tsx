@@ -86,7 +86,7 @@ export default function Portfolio() {
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: -50 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className={`md:hidden fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border/50 transition-transform duration-300 ${
                 isScrolled ? "translate-y-0" : "-translate-y-full"
               }`}
@@ -144,13 +144,9 @@ export default function Portfolio() {
       </motion.div>
 
       <motion.div
-        initial={{ scale: 0.9, opacity: 0, filter: "blur(10px)" }}
-        animate={
-          isLoaded
-            ? { scale: 1, opacity: 1, filter: "blur(0px)" }
-            : { scale: 0.9, opacity: 0, filter: "blur(10px)" }
-        }
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        initial={{ opacity: 0, y: 16 }}
+        animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="mx-auto max-w-7xl w-full"
             >
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
@@ -480,11 +476,11 @@ function HomeContent() {
           </div>
           <div>
             <h4 className="font-semibold text-lg mb-2 text-foreground">
-              DevOps & Cloud
+              SEO & Analytics
             </h4>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Deploying and maintaining apps with CI/CD pipelines,
-              containerization, and cloud services.
+              Boosting visibility and performance with technical SEO and
+              analytics-driven optimization.
             </p>
           </div>
         </div>
