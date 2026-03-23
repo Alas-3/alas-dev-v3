@@ -341,7 +341,7 @@ function HomeContent() {
           <p className="text-muted-foreground leading-relaxed text-pretty">
             A software developer with over four years of experience in web
             development. I hold multiple certificates from leading tech
-            organizations such as IBM, Google, Meta, Amazon, GitHub, and others.
+            companies such as IBM, Google, Meta, Amazon, GitHub, and others.
           </p>
 
           <Button
