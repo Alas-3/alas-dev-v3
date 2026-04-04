@@ -656,11 +656,11 @@ function ProjectsContent() {
       link: "#",
     },
     {
-      title: "acelabador.tech",
+      title: "Nuvio Plugins",
       description:
-        "A previous version of my personal portfolio website with an emphasis on design, animations, transitions, and micro-interactions.",
-      tech: ["React", "Next.js", "SEO", "Tailwind CSS"],
-      link: "https://acelabadorv1.vercel.app/",
+        "A plugin library that supports the Nuvio ecosystem (nuvioapp.space), using Vite, with Google Analytics tracking and usage by over 1.3k users.",
+      tech: ["React", "TypeScript", "Vite", "Google Analytics", "Notion API"],
+      link: "https://nuvio-plugin-library.vercel.app",
     },
   ];
   const handleProjectClick = (link: string) => {
