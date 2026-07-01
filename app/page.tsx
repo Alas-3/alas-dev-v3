@@ -601,7 +601,7 @@ function ProjectsContent() {
         "Supabase",
         "Tailwind CSS",
       ],
-      link: "https://ojtfolio.systems/",
+      link: "https://ojtfolio.vercel.app/",
     },
     {
       title: "Loooply",
