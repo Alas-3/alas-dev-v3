@@ -539,7 +539,7 @@ function WorkContent() {
       skills: [
         "Social Media",
         "Content Strategy",
-        "Client Aquistion & Outreach",
+        "Client Acquistion & Outreach",
         "Management",
       ],
     },
