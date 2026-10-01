@@ -17,7 +17,7 @@ import {
   FileText,
 } from "lucide-react";
 import { LoadingScreen } from "@/components/SplashScreen";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 type Section = "home" | "work" | "credentials" | "projects";
 
@@ -63,16 +63,10 @@ export default function Portfolio() {
     const isMobile = window.matchMedia("(max-width: 767px)").matches;
     if (!isMobile) return;
 
-    // Scroll to top if user is scrolled down (e.g. using sticky nav)
-    // If user is already at the top, do not scroll down to content
-    setTimeout(() => {
-        if (window.scrollY > 100) {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        }
-    }, 100);
+    // Return to the top immediately when switching sections on mobile.
+    if (window.scrollY > 100) {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
   }, [activeSection]);
 
   const handleSectionChange = (section: Section) => {

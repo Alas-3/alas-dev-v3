@@ -57,7 +57,9 @@ export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
   return (
     <div
       className={`fixed inset-0 w-full h-full overflow-hidden ${
-        "z-50 pointer-events-auto"
+        phase === "loading"
+          ? "z-50 pointer-events-auto"
+          : "z-0 pointer-events-none"
       } ${
         phase === "exiting"
           ? "bg-transparent transition-colors duration-[1600ms]"

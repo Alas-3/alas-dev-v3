@@ -237,6 +237,12 @@
     /* No style changes on hover */
 }
 
+@media (max-width: 768px) {
+    .glass-card {
+        backdrop-filter: none;
+    }
+}
+
 /* Keep glass-highlight structure but without animation */
 .glass-highlight {
     position: relative;
