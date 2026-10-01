@@ -153,10 +153,11 @@ export default function Portfolio() {
           <Card className="md:col-span-2 p-6 flex items-center justify-center glass-card glass-highlight">
             <div className="text-6xl font-bold text-foreground rounded-full w-28 h-28 flex items-center justify-center bg-primary/10 border-2 border-primary/20">
               <Image
-                src="/images/herologo.png"
+                src="/images/herologo-optimized.png"
                 alt="Ace Labador"
                 width={100}
                 height={100}
+                priority
               />
             </div>
           </Card>
@@ -166,7 +167,7 @@ export default function Portfolio() {
               Ace Labador
             </h1>
             <p className="text-lg md:text-xl mt-[-2rem] text-center md:text-left gradient-text-muted">
-              Software Developer
+              Freelancer
             </p>
           </Card>
 
@@ -339,16 +340,17 @@ function HomeContent() {
           </div>
 
           <p className="text-muted-foreground leading-relaxed text-pretty">
-            A software developer with over four years of experience in web
-            development. I hold multiple certificates from leading tech
-            companies such as IBM, Google, Meta, Amazon, GitHub, and others.
+            I&apos;m a freelancer with experience in software development and
+            virtual assistance. I build practical digital solutions, support
+            business operations, and help clients manage their online presence
+            through reliable, detail-oriented work.
           </p>
 
           <Button
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             onClick={() =>
               window.open(
-                "/Labador, Christopher Ace.pdf",
+                "/Christopher Ace Labador.pdf",
                 "_blank",
                 "noopener,noreferrer"
               )
@@ -361,26 +363,24 @@ function HomeContent() {
 
       <Card className="hidden md:flex col-span-1 md:col-span-5 p-6 md:p-8 glass-card glass-highlight  ">
         <div className="w-full">
-          <h3 className="text-2xl font-bold mb-6">Tech Stack</h3>
+          <h3 className="text-2xl font-bold mb-6">Skills</h3>
           <div className="flex flex-wrap gap-3">
             {[
               "React",
               "Next.js",
               "TypeScript",
-              "Vite",
-              "Tailwind",
+              "Tailwind CSS",
               "Redux",
               "Node.js",
-              "Express",
-              "PHP",
-              "Python",
-              "MySQL",
-              "NoSQL",
               "PostgreSQL",
               "Supabase",
-              "Firebase",
-              "MongoDB",
-              "Axios",
+              "Git",
+              "Content Planning",
+              "Social Media",
+              "Lead Generation",
+              "CRM",
+              "Outreach",
+              "Reporting",
             ].map((tech) => (
               <Badge
                 key={tech}
@@ -397,41 +397,39 @@ function HomeContent() {
       <Card className="md:flex col-span-1 md:col-span-3 p-6 md:p-8 glass-card glass-highlight   flex-col justify-center">
         <div className="flex flex-row md:flex-col justify-between items-center gap-0 md:gap-6">
           <div className="text-center">
-            <div className="text-4xl font-bold text-primary mb-2">4+</div>
+            <div className="text-4xl font-bold text-primary mb-2">3+</div>
             <div className="text-muted-foreground text-xs md:text-sm">
-              Years in Web Development
+              Years as a Developer
             </div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold text-accent mb-2">700+</div>
+            <div className="text-4xl font-bold text-accent mb-2">1+</div>
             <div className="text-muted-foreground text-xs md:text-sm">
-              Commits & Contributions
+              Years as a Virtual Assistant
             </div>
           </div>
         </div>
       </Card>
 
       <Card className="md:hidden col-span-1 p-6 glass-card glass-highlight  ">
-        <h3 className="text-2xl font-bold mb-6">Tech Stack</h3>
+        <h3 className="text-2xl font-bold mb-6">Skills & Tools</h3>
         <div className="flex flex-wrap gap-2">
           {[
             "React",
             "Next.js",
             "TypeScript",
-            "Vite",
-            "Tailwind",
+            "Tailwind CSS",
             "Redux",
             "Node.js",
-            "PHP",
-            "Express",
-            "Python",
-            "MySQL",
-            "NoSQL",
             "PostgreSQL",
             "Supabase",
-            "Firebase",
-            "MongoDB",
-            "Axios",
+            "Git",
+            "Content Planning",
+            "Social Media",
+            "Lead Generation",
+            "CRM",
+            "Outreach",
+            "Reporting",
           ].map((tech) => (
             <Badge
               key={tech}
@@ -467,20 +465,20 @@ function HomeContent() {
           </div>
           <div>
             <h4 className="font-semibold text-lg mb-2 text-foreground">
-              UI/UX Design
+              Virtual Assistance
             </h4>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Designing thoughtful, user-focused experiences that blend clarity,
-              usability, and visual harmony.
+              Supporting day-to-day business operations through organized
+              administrative support, CRM updates, reporting, and coordination.
             </p>
           </div>
           <div>
             <h4 className="font-semibold text-lg mb-2 text-foreground">
-              SEO & Analytics
+              Social Media & Lead Generation
             </h4>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Boosting visibility and performance with technical SEO and
-              analytics-driven optimization.
+              Planning content, engaging audiences, conducting outreach, and
+              managing lead-generation workflows to support business growth.
             </p>
           </div>
         </div>
@@ -492,55 +490,82 @@ function HomeContent() {
 function WorkContent() {
   const experiences = [
     {
+      period: "Jul 2026 — Present",
+      title: "Virtual Assistant — Social Media",
+      company: "MAXMO Management LLC · Part-time · Remote · Albuquerque, USA",
+      description: [
+        "Plan and schedule social media content, including reels, videos, and Stories, based on content calendars and posting schedules.",
+        "Manage audience engagement through comments, replies, and account interactions while monitoring analytics to improve future content planning.",
+      ],
+      skills: ["Social Media", "Content Planning", "Audience Engagement", "Analytics"],
+    },
+    {
+      period: "Aug 2026 — Oct 2026",
+      title: "Virtual Assistant — Lead Generation & Outreach",
+      company: "Arinze Consulting Ltd · Part-time · Remote · London, UK",
+      description: [
+        "Conduct personalized social media outreach, lead generation, follow-ups, and pipeline management while maintaining accurate CRM and spreadsheet records.",
+        "Prepare EOD/EOW reports, track prospect stages, and coordinate lead handoffs for discovery-call workflows.",
+      ],
+      skills: ["Lead Generation", "Outreach", "CRM", "Pipeline Management"],
+    },
+    {
+      period: "Jul 2025 — Oct 2025",
+      title: "Frontend Developer",
+      company: "Sozoroad · Contract · Remote · New York, USA",
+      description: [
+        "Built the complete frontend for the company's primary website using React, translating Figma designs into responsive, production-ready interfaces.",
+        "Developed and refined layouts and navigation across mobile, tablet, and desktop while collaborating directly with the lead designer.",
+      ],
+      skills: ["React", "Frontend Development", "Responsive Design", "Figma"],
+    },
+    {
       period: "Nov 2023 — Jun 2025",
       title: "Software Engineer",
-      company: "Syrincal Trading OPC",
-      description:
-        "Contracted as the sole architect and developer of scalabale B2B ordering platform.",
+      company: "Syrincal Trading OPC · Contract · Hybrid · Bulacan, PH",
+      description: [
+        "Architected and developed a centralized B2B ordering and inventory platform supporting 50+ client accounts, approximately 1,000 monthly orders, and 500+ products.",
+        "Designed and implemented six core modules covering inventory, ordering, order workflows, delivery tracking, supply-chain visibility, and product CMS.",
+        "Owned the full software development lifecycle, partnering directly with the CEO on requirements, architecture, deployment, testing, and maintenance.",
+      ],
       skills: [
         "React",
         "Next.js",
         "Node.js",
-        "PostgreSQL",
+        "Supabase",
         "Redux",
-        "OAuth",
         "Tailwind CSS",
       ],
     },
     {
-      period: "Jan 2025 — Apr 2025",
-      title: "Full-Stack Developer Intern",
-      company: "Bone Fix Metal Craft Inc.",
-      description:
-        "Developed a PHP-based custom CMS with RBAC and admin dashboard.",
-      skills: ["PHP", "HTML", "CSS", "JavaScript", "MySQL", "WordPress"],
-    },
-    {
       period: "Sep 2024 — Dec 2024",
-      title: "Freelance Web Developer",
-      company: "D.R.A. Jewelry",
-      description:
-        "Delivered a mobile-first, fully responsive business website with SEO optimization.",
+      title: "Web Developer",
+      company: "D.R.A. Jewelry · Freelance · Remote · Bulacan, PH",
+      description: [
+        "Delivered a mobile-first React and Tailwind product catalog with responsive UI, SEO optimization, consultation scheduling, Google Analytics, and Search Console.",
+        "Managed the engagement end-to-end from requirements and UI implementation through testing, deployment, and client handoff.",
+      ],
       skills: [
         "React",
-        "Next.js",
         "Tailwind CSS",
         "SEO",
-        "Web3Forms",
         "Google Analytics",
+        "Search Console",
       ],
     },
     {
       period: "Jun 2023 — Jun 2024",
       title: "Social Media Manager",
-      company: "We Whiten",
-      description:
-        "Managed day-to-day social media marketing operations across social media platforms.",
+      company: "WeWhiten · Part-time · Remote · Utah, USA",
+      description: [
+        "Managed lead generation, customer tracking, appointment coordination, client outreach, and follow-up workflows from initial inquiry through scheduled appointments.",
+        "Supported influencer outreach and partnership activities while refining content scheduling and marketing workflows.",
+      ],
       skills: [
         "Social Media",
-        "Content Strategy",
-        "Client Acquistion & Outreach",
-        "Management",
+        "Lead Generation",
+        "Client Outreach",
+        "Appointment Coordination",
       ],
     },
   ];
@@ -561,9 +586,11 @@ function WorkContent() {
                 </div>
                 <h3 className="text-2xl font-bold mb-1">{exp.title}</h3>
                 <div className="text-lg text-primary mb-3">{exp.company}</div>
-                <p className="text-muted-foreground leading-relaxed mb-4">
-                  {exp.description}
-                </p>
+                <ul className="text-muted-foreground leading-relaxed mb-4 list-disc pl-5 space-y-2">
+                  {exp.description.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
                 <div className="flex flex-wrap gap-2">
                   {exp.skills.map((skill) => (
                     <Badge

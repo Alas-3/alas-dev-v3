@@ -14,7 +14,7 @@ interface LoadingScreenProps {
 }
 
 export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
-  const [phase, setPhase] = useState<"loading" | "exiting" | "hidden" | "background">("loading");
+  const [phase, setPhase] = useState<"loading" | "exiting" | "hidden">("loading");
   
   // Total rows to cover screen + buffer for tilt
   const rowCount = 20;
@@ -23,20 +23,20 @@ export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
   const rowText = Array.from({ length: 30 }, () => "Alas").join("   ");
 
   useEffect(() => {
-    // Phase 1: loading -> exiting, then settle as subtle background texture.
-    let backgroundTimer: ReturnType<typeof setTimeout> | undefined;
+    // Reveal the page quickly, then remove the animation after its exit transition.
+    let hideTimer: ReturnType<typeof setTimeout> | undefined;
     const exitTimer = setTimeout(() => {
         if (onLoadingComplete) onLoadingComplete();
         setPhase("exiting");
 
-        backgroundTimer = setTimeout(() => {
-          setPhase("background");
-        }, 0);
-    }, 3500);
+        hideTimer = setTimeout(() => {
+          setPhase("hidden");
+        }, 1800);
+    }, 1200);
 
     return () => {
       clearTimeout(exitTimer);
-      if (backgroundTimer) clearTimeout(backgroundTimer);
+      if (hideTimer) clearTimeout(hideTimer);
     };
   }, [onLoadingComplete]);
 
@@ -52,12 +52,14 @@ export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
     };
   }, [phase]);
 
+  if (phase === "hidden") return null;
+
   return (
     <div
       className={`fixed inset-0 w-full h-full overflow-hidden ${
-        phase === "background" ? "z-0 pointer-events-none" : "z-50 pointer-events-auto"
+        "z-50 pointer-events-auto"
       } ${
-        phase === "exiting" || phase === "background"
+        phase === "exiting"
           ? "bg-transparent transition-colors duration-[1600ms]"
           : "bg-[#121212]"
       }`}
@@ -83,7 +85,7 @@ export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
 const Row = ({ text, isEven, phase, rowIndex }: {
   text: string;
   isEven: boolean;
-  phase: "loading" | "exiting" | "hidden" | "background";
+  phase: "loading" | "exiting" | "hidden";
   rowIndex: number;
 }) => {
   const controls = useAnimation();
@@ -122,33 +124,6 @@ const Row = ({ text, isEven, phase, rowIndex }: {
           },
         },
       });
-      return;
-    }
-
-    if (phase === "background") {
-      // Snap to resting position instantly while still invisible.
-      controls.set({ x: isEven ? "0%" : "-15%" });
-
-      void controls
-        .start({
-          opacity: 0.055,
-          transition: {
-            duration: 0.6,
-            delay: 0,
-            ease: "easeOut",
-          },
-        })
-        .then(() => {
-          controls.start({
-            x: isEven ? ["0%", "-15%"] : ["-15%", "0%"],
-            transition: {
-              repeat: Infinity,
-              repeatType: "reverse",
-              duration: 10,
-              ease: "easeInOut",
-            },
-          });
-        });
       return;
     }
 
