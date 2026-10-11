@@ -11,7 +11,7 @@ import './globals.css'
 export const metadata: Metadata = {
   metadataBase: new URL('https://acelabador.vercel.app'),
   title: {
-    default: 'Ace Labador | Software Developer ',
+    default: 'Ace Labador | Freelancer',
     template: '%s | Ace Labador',
   },
   description:

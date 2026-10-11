@@ -532,6 +532,25 @@ function WorkContent() {
       ],
     },
     {
+      period: "Jan 2025 — Apr 2025",
+      title: "Full Stack Developer",
+      company: "Bone Fix Metal Craft Inc. · Project-based · Hybrid · Metro Manila, PH",
+      description: [
+        "Developed a full-stack PHP-based custom CMS with an admin dashboard for managing orthopedic implant data and providing physicians with on-demand clinical information and usage guidelines.",
+        "Implemented role-based access control with admin-exclusive account provisioning, unique admin-issued credentials, and no open registration to protect confidential data.",
+        "Developed product database, physician view, usage guidelines, and data retrieval pages using PHP, MySQL, HTML, CSS, JavaScript, and WordPress.",
+        "Deployed the system and produced complete technical and user documentation for operational handoff.",
+      ],
+      skills: [
+        "PHP",
+        "MySQL",
+        "WordPress",
+        "JavaScript",
+        "RBAC",
+        "CMS",
+      ],
+    },
+    {
       period: "Sep 2024 — Dec 2024",
       title: "Web Developer",
       company: "D.R.A. Jewelry · Freelance · Remote · Bulacan, PH",
