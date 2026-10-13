@@ -40,9 +40,9 @@ export const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
     };
   }, [onLoadingComplete]);
 
-  // Lock body scroll during loading/exiting
+  // Lock body scroll only while the loading screen blocks the page.
   useEffect(() => {
-    if (phase === "loading" || phase === "exiting") {
+    if (phase === "loading") {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -27,6 +27,11 @@ export default function Portfolio() {
   const [isLoaded, setIsLoaded] = useState(false);
   const mobileNavRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const previousSectionRef = useRef<Section>("home");
+
+  const handleLoadingComplete = useCallback(() => {
+    setIsLoaded(true);
+  }, []);
 
   useEffect(() => {
     // Force scroll to top on mount
@@ -60,13 +65,23 @@ export default function Portfolio() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
-    if (!isMobile) return;
+    if (previousSectionRef.current === activeSection) return;
+    previousSectionRef.current = activeSection;
 
-    // Return to the top immediately when switching sections on mobile.
-    if (window.scrollY > 100) {
-      window.scrollTo({ top: 0, behavior: "auto" });
+    if (!window.matchMedia("(max-width: 767px)").matches) return;
+
+    if (activeSection === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
     }
+
+    const contentTop =
+      (contentRef.current?.getBoundingClientRect().top ?? 0) + window.scrollY;
+
+    window.scrollTo({
+      top: Math.max(0, contentTop - 24),
+      behavior: "smooth",
+    });
   }, [activeSection]);
 
   const handleSectionChange = (section: Section) => {
@@ -75,13 +90,10 @@ export default function Portfolio() {
 
   return (
     <div className="min-h-screen p-4 md:p-8 flex items-center relative isolation-auto overflow-hidden">
-      <LoadingScreen onLoadingComplete={() => setIsLoaded(true)} />
+      <LoadingScreen onLoadingComplete={handleLoadingComplete} />
 
-      <motion.div
-        initial={{ opacity: 0, y: -50 }}
-        animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: -50 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className={`md:hidden fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border/50 transition-transform duration-300 ${
+      <div
+        className={`md:hidden fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border/50 transition-transform duration-300 ${
                 isScrolled ? "translate-y-0" : "-translate-y-full"
               }`}
             >
@@ -135,7 +147,7 @@ export default function Portfolio() {
                   <FolderGit2 className="h-6 w-6" />
                 </Button>
               </div>
-      </motion.div>
+      </div>
 
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -260,7 +272,10 @@ export default function Portfolio() {
             </div>
           </Card>
 
-          <div ref={contentRef} className="col-span-1 md:col-span-10 md:h-[700px] grid grid-cols-1 md:grid-cols-10 gap-4 md:gap-6">
+          <div
+            ref={contentRef}
+            className="col-span-1 md:col-span-10 md:h-[700px] grid grid-cols-1 md:grid-cols-10 gap-4 md:gap-6"
+          >
             {activeSection === "home" && <HomeContent />}
             {activeSection === "work" && <WorkContent />}
             {activeSection === "credentials" && <CredentialsContent />}
