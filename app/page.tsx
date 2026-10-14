@@ -15,6 +15,7 @@ import {
   Github,
   Mail,
   FileText,
+  ChevronDown,
 } from "lucide-react";
 import { LoadingScreen } from "@/components/SplashScreen";
 import { motion } from "framer-motion";
@@ -497,6 +498,10 @@ function HomeContent() {
 }
 
 function WorkContent() {
+  const [expandedExperiences, setExpandedExperiences] = useState<Set<number>>(
+    new Set()
+  );
+
   const experiences = [
     {
       period: "Jul 2026 — Present",
@@ -612,9 +617,51 @@ function WorkContent() {
                 <div className="text-sm text-muted-foreground mb-2">
                   {exp.period}
                 </div>
-                <h3 className="text-2xl font-bold mb-1">{exp.title}</h3>
-                <div className="text-lg text-primary mb-3">{exp.company}</div>
-                <ul className="text-muted-foreground leading-relaxed mb-4 list-disc pl-5 space-y-2">
+                <h3
+                  className="text-lg md:text-2xl font-bold mb-1 text-pretty"
+                  title={exp.title}
+                >
+                  {exp.title}
+                </h3>
+                <div
+                  className="text-base md:text-lg text-primary mb-3 break-words"
+                  title={exp.company}
+                >
+                  {exp.company}
+                </div>
+                <button
+                  type="button"
+                  className="md:hidden mb-3 inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  aria-expanded={expandedExperiences.has(index)}
+                  aria-controls={`experience-details-${index}`}
+                  onClick={() =>
+                    setExpandedExperiences((current) => {
+                      const next = new Set(current);
+                      if (next.has(index)) {
+                        next.delete(index);
+                      } else {
+                        next.add(index);
+                      }
+                      return next;
+                    })
+                  }
+                >
+                  {expandedExperiences.has(index)
+                    ? "Hide details"
+                    : "View details"}
+                  <ChevronDown
+                    aria-hidden="true"
+                    className={`size-4 transition-transform ${
+                      expandedExperiences.has(index) ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                <ul
+                  id={`experience-details-${index}`}
+                  className={`${
+                    expandedExperiences.has(index) ? "block" : "hidden"
+                  } md:block text-muted-foreground leading-relaxed mb-4 list-disc pl-5 space-y-2`}
+                >
                   {exp.description.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
