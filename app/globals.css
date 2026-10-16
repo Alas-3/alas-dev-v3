@@ -130,9 +130,26 @@
     }
     body {
         @apply bg-background text-foreground;
+            overflow-x: clip;
     }
 }
 
+.ace-splash-frame {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #030303;
+    opacity: 1;
+    transition: opacity 420ms ease-out;
+}
+
+.ace-splash-frame--exiting {
+    pointer-events: none;
+    opacity: 0;
+}
 
 /* Added subtle custom scrollbar styling */
 

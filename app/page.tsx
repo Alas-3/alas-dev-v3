@@ -17,7 +17,7 @@ import {
   FileText,
   ChevronDown,
 } from "lucide-react";
-import { LoadingScreen } from "@/components/SplashScreen";
+import { SplashScreen } from "@/components/SplashScreen";
 import { motion } from "framer-motion";
 
 type Section = "home" | "work" | "credentials" | "projects";
@@ -30,7 +30,7 @@ export default function Portfolio() {
   const contentRef = useRef<HTMLDivElement>(null);
   const previousSectionRef = useRef<Section>("home");
 
-  const handleLoadingComplete = useCallback(() => {
+  const handleSplashComplete = useCallback(() => {
     setIsLoaded(true);
   }, []);
 
@@ -62,7 +62,7 @@ export default function Portfolio() {
         observer.unobserve(mobileNavRef.current);
       }
     };
-  }, [isLoaded]);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -90,8 +90,8 @@ export default function Portfolio() {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-8 flex items-center relative isolation-auto overflow-hidden">
-      <LoadingScreen onLoadingComplete={handleLoadingComplete} />
+    <div className="min-h-screen p-4 md:p-8 flex flex-col md:flex-row items-start md:items-center relative isolate overflow-x-clip">
+      <SplashScreen onComplete={handleSplashComplete} />
 
       <div
         className={`md:hidden fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border/50 transition-transform duration-300 ${
@@ -151,11 +151,11 @@ export default function Portfolio() {
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="mx-auto max-w-7xl w-full"
-            >
+        initial={{ opacity: 0, scale: 0.985 }}
+        animate={isLoaded ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.985 }}
+        transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+        className="mx-auto max-w-7xl w-full"
+      >
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
           <Card className="md:col-span-2 p-6 flex items-center justify-center glass-card glass-highlight">
             <div className="text-6xl font-bold text-foreground rounded-full w-28 h-28 flex items-center justify-center bg-primary/10 border-2 border-primary/20">
