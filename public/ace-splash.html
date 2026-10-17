@@ -10,17 +10,17 @@
 html,body{height:100%;margin:0;background:var(--bg);overflow:hidden;cursor:pointer}
 #stage{position:fixed;inset:0;perspective:1400px;overflow:hidden;background:var(--bg)}
 #fit,#world{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d}
-.wall{position:absolute;left:-1800px;top:-1100px;width:3600px;height:2200px;
+.wall{position:absolute;left:-2500px;top:-1500px;width:5000px;height:3000px;
  background:
   url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .08 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>") 0 0/256px,
   linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px) 0 0/160px 160px,
   linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px) 0 0/160px 160px,
   radial-gradient(ellipse at 50% 50%,#2a2a2a 0%,#121212 38%,#060606 75%)}
 .wall svg{position:absolute;inset:0;width:100%;height:100%}
-.glow{position:absolute;left:600px;top:500px;width:1200px;height:1200px;border-radius:50%;opacity:0;
+.glow{position:absolute;left:1900px;top:900px;width:1200px;height:1200px;border-radius:50%;opacity:0;
  background:radial-gradient(circle,rgba(255,255,255,.3),rgba(255,255,255,.08) 40%,transparent 65%)}
-.ring{position:absolute;left:1640px;top:940px;width:320px;height:320px;border-radius:50%;opacity:0;border:3px solid rgba(255,255,255,.85);box-shadow:0 0 30px #fff}
-.cshadow{position:absolute;left:1600px;top:1035px;width:400px;height:130px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.95),rgba(0,0,0,0) 70%);opacity:0}
+.ring{position:absolute;left:2340px;top:1340px;width:320px;height:320px;border-radius:50%;opacity:0;border:3px solid rgba(255,255,255,.85);box-shadow:0 0 30px #fff}
+.cshadow{position:absolute;left:2300px;top:1435px;width:400px;height:130px;border-radius:50%;background:#000;filter:blur(24px);opacity:0}
 .card{position:absolute;left:-100px;top:-145px;width:200px;height:290px;transform-style:preserve-3d;opacity:0}
 .ed,.face,.back{position:absolute;inset:0;border-radius:16px}
 .ed{background:#cfcfcf}
@@ -37,7 +37,7 @@ html,body{height:100%;margin:0;background:var(--bg);overflow:hidden;cursor:point
 .sheen{position:absolute;z-index:3;inset:0;transform:translateX(-130%);background:linear-gradient(115deg,transparent 38%,rgba(0,0,0,.14) 50%,transparent 62%)}
 .back{background:repeating-linear-gradient(45deg,rgba(255,255,255,.16) 0 2px,transparent 2px 14px),repeating-linear-gradient(-45deg,rgba(255,255,255,.16) 0 2px,transparent 2px 14px),#0b0b0b;
  border:2px solid #bbb;box-shadow:0 0 24px rgba(255,255,255,.25)}
-.back svg{position:absolute;left:50%;top:50%;width:54px;height:65px;margin:-32px 0 0 -27px}
+.back svg{position:absolute;left:50%;top:50%;width:54px;height:65px;margin:-32px 0 0 -27px;filter:drop-shadow(0 0 8px #fff)}
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
 #flash{position:fixed;inset:0;pointer-events:none;opacity:0;background:radial-gradient(circle,#fff 0%,rgba(220,220,220,.6) 35%,transparent 70%)}
 #cover{position:fixed;inset:0;pointer-events:none;opacity:0;background:#000}
@@ -87,43 +87,28 @@ const ROLL  = -14;   // tilt in the wall plane
 const SPIN  = 48;    // rotates the card in its own plane so its TOP-RIGHT corner leads into the wall
 const ZOOM  = 34;    // final zoom factor into the spade
 const EMBED = -22;   // 0 = exactly half buried; more negative = less buried
+const THICK = 6;     // card thickness in px
 const T = (x,y,z,roll,lean,spin) =>
   `translate3d(${x}px,${y}px,${z}px) rotateZ(${roll}deg) rotateY(${lean}deg) translateX(${EMBED}px) rotateZ(${spin}deg)`;
 const FINAL = T(0,0,0,ROLL,LEAN,SPIN);
 const CAM_START = 'translate3d(0px,0px,0px) rotateY(0deg) rotateX(0deg)';
 const CAM_END   = 'translate3d(60px,0px,170px) rotateY(-52deg) rotateX(7deg)';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const LITE = matchMedia('(pointer:coarse)').matches;
 const rad = d => d*Math.PI/180;
 
 /* ---- Card thickness: stacked edge layers behind the face ---- */
 const back=$('#back');
-const THICK = LITE ? 3 : 6;
 for(let i=1;i<=THICK-1;i++){
-  const e=document.createElement('div'); e.className='ed';
-  const g=Math.round(207*(1-i*.06));
-  e.style.background=`rgb(${g},${g},${g})`; e.style.transform=`translateZ(${-i}px)`;
-  card.insertBefore(e,back);
+  const e=document.createElement('div'); e.className='ed'; e.style.transform=`translateZ(${-i}px)`;
+  e.style.filter=`brightness(${1-i*.06})`; card.insertBefore(e,back);
 }
 back.style.transform=`translateZ(${-THICK}px) rotateY(180deg)`;
-
-/* ---- Fake the wall intersection (Safari/WebKit cannot depth-sort intersecting planes) ---- */
-function clipPoly(d){
-  const a=rad(SPIN), L=700;
-  const n=[Math.cos(a),-Math.sin(a)], t=[Math.sin(a),Math.cos(a)];
-  const pts=[[d,L],[d,-L],[-L,-L],[-L,L]].map(([u,v]) =>
-    [n[0]*u+t[0]*v+100,n[1]*u+t[1]*v+145]);
-  return 'polygon('+pts.map(p=>p.map(v=>v.toFixed(1)+'px').join(' ')).join(',')+')';
-}
-const CUT=clipPoly(-EMBED), FULL=clipPoly(700);
-const clipEls=[...card.querySelectorAll('.ed,.face,.back')];
-const clipAll=(kf,opt)=>clipEls.map(el=>el.animate(kf,opt));
 
 /* ---- Fit + canvas ---- */
 function resize(){
   const s = Math.max(.45, Math.min(innerWidth/1000, innerHeight/760, 1.4));
   fit.style.transform = `scale3d(${s},${s},${s})`;
-  const d = Math.min(devicePixelRatio || 1, 1.5);
+  const d = devicePixelRatio || 1;
   cv.width = innerWidth*d; cv.height = innerHeight*d; ctx.setTransform(d,0,0,d,0,0);
 }
 addEventListener('resize', resize); resize();
@@ -131,9 +116,9 @@ addEventListener('resize', resize); resize();
 /* ---- Sparks + debris chips ---- */
 let sparks=[];
 function burst(x,y){
-  for(let i=0;i<(LITE?40:100);i++){ const a=Math.random()*Math.PI*2, s=4+Math.random()*19;
+  for(let i=0;i<100;i++){ const a=Math.random()*Math.PI*2, s=4+Math.random()*19;
     sparks.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-3,l:1,d:.012+Math.random()*.022,c:['#fff','#e0e0e0','#9a9a9a'][i%3|0]}); }
-  for(let i=0;i<(LITE?10:28);i++){ const a=Math.random()*Math.PI*2, s=3+Math.random()*11;
+  for(let i=0;i<28;i++){ const a=Math.random()*Math.PI*2, s=3+Math.random()*11;
     sparks.push({chip:1,x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-4,l:1,d:.007+Math.random()*.008,
       c:Math.random()<.5?'#777':'#bbb',sz:3+Math.random()*6,rot:Math.random()*6,vr:(Math.random()-.5)*.5}); }
 }
@@ -163,17 +148,14 @@ function reset(){
 function showFinal(){
   card.style.opacity=1; card.style.transform=FINAL; world.style.transform=CAM_END;
   cshadow.style.opacity=.8;
-  clipEls.forEach(el=>el.style.clipPath=CUT);
 }
 
 function impact(){
-  stage.animate(LITE
-    ? [{transform:'translate(0,0)'},{transform:'translate(-10px,7px)'},{transform:'translate(7px,-6px)'},{transform:'translate(0,0)'}]
-    : [
-      {transform:'translate(0,0) rotate(0)'},{transform:'translate(-18px,12px) rotate(-.9deg)'},
-      {transform:'translate(14px,-12px) rotate(.7deg)'},{transform:'translate(-9px,-6px) rotate(-.4deg)'},
-      {transform:'translate(5px,4px) rotate(.2deg)'},{transform:'translate(0,0) rotate(0)'}
-    ],{duration:520,easing:'ease-out'});
+  stage.animate([
+    {transform:'translate(0,0) rotate(0)'},{transform:'translate(-18px,12px) rotate(-.9deg)'},
+    {transform:'translate(14px,-12px) rotate(.7deg)'},{transform:'translate(-9px,-6px) rotate(-.4deg)'},
+    {transform:'translate(5px,4px) rotate(.2deg)'},{transform:'translate(0,0) rotate(0)'}
+  ],{duration:520,easing:'ease-out'});
   flash.animate([{opacity:.85},{opacity:0}],{duration:420,easing:'ease-out'});
   glow.animate([{opacity:1,transform:'scale(.4)'},{opacity:.5,transform:'scale(1)'}],{duration:900,easing:'ease-out',fill:'forwards'});
   ring.animate([{opacity:.9,transform:'scale(.1)'},{opacity:0,transform:'scale(9)'}],{duration:1000,easing:'cubic-bezier(.1,.7,.2,1)'});
@@ -191,8 +173,6 @@ async function play(){
   card.style.opacity=1;
   const fl=card.animate([{transform:START},{transform:FINAL}],
     {duration:620,easing:'cubic-bezier(.3,.55,.6,1)',fill:'forwards'});
-  clipAll([{clipPath:FULL},{clipPath:FULL,offset:.85},{clipPath:CUT}],
-    {duration:620,easing:'linear',fill:'forwards'});
   await fl.finished.catch(()=>{}); if(!alive()) return;
   impact();
   await wait(950); if(!alive()) return;
@@ -206,8 +186,6 @@ async function play(){
   dispatchEvent(new CustomEvent('splash:zoom'));
   world.animate([{transform:CAM_END},{transform:zoomPose()}],{duration:1900,easing:'cubic-bezier(.55,0,.15,1)',fill:'forwards'});
   wallEl.animate([{opacity:1},{opacity:0}],{duration:800,delay:100,easing:'ease-in',fill:'forwards'});
-  clipAll([{clipPath:CUT},{clipPath:FULL}],
-    {duration:700,delay:100,easing:'ease-in',fill:'forwards'});
   cover.animate([{opacity:0},{opacity:1}],{duration:350,delay:1550,fill:'forwards'});
   await wait(1950); if(!alive()) return;
   done();
