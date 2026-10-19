@@ -25,7 +25,7 @@ type Section = "home" | "work" | "credentials" | "projects";
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState<Section>("home");
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
   const mobileNavRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const previousSectionRef = useRef<Section>("home");

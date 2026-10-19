@@ -146,6 +146,12 @@
     transition: opacity 420ms ease-out;
 }
 
+@media (max-width: 767px) {
+    .ace-splash-frame {
+        display: none;
+    }
+}
+
 .ace-splash-frame--exiting {
     pointer-events: none;
     opacity: 0;

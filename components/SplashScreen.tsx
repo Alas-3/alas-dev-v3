@@ -11,6 +11,12 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
+    if (window.matchMedia?.("(max-width: 767px)").matches) {
+      setIsVisible(false);
+      onComplete?.();
+      return;
+    }
+
     let removeTimer: number | undefined;
     const finish = () => {
       setIsExiting(true);
