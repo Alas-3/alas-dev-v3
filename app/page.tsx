@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -17,7 +17,6 @@ import {
   FileText,
   ChevronDown,
 } from "lucide-react";
-import { SplashScreen } from "@/components/SplashScreen";
 import { motion } from "framer-motion";
 
 type Section = "home" | "work" | "credentials" | "projects";
@@ -25,14 +24,9 @@ type Section = "home" | "work" | "credentials" | "projects";
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState<Section>("home");
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(true);
   const mobileNavRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const previousSectionRef = useRef<Section>("home");
-
-  const handleSplashComplete = useCallback(() => {
-    setIsLoaded(true);
-  }, []);
 
   useEffect(() => {
     // Force scroll to top on mount
@@ -91,8 +85,6 @@ export default function Portfolio() {
 
   return (
     <div className="min-h-screen p-4 md:p-8 flex flex-col md:flex-row items-start md:items-center relative isolate overflow-x-clip">
-      <SplashScreen onComplete={handleSplashComplete} />
-
       <div
         className={`md:hidden fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border/50 transition-transform duration-300 ${
                 isScrolled ? "translate-y-0" : "-translate-y-full"
@@ -152,7 +144,7 @@ export default function Portfolio() {
 
       <motion.div
         initial={{ opacity: 0, scale: 0.985 }}
-        animate={isLoaded ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.985 }}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
         className="mx-auto max-w-7xl w-full"
       >
@@ -518,8 +510,8 @@ function WorkContent() {
       title: "Virtual Assistant — Lead Generation & Outreach",
       company: "Arinze Consulting Ltd · Part-time · Remote · London, UK",
       description: [
-        "Conduct personalized social media outreach, lead generation, follow-ups, and pipeline management while maintaining accurate CRM and spreadsheet records.",
-        "Prepare EOD/EOW reports, track prospect stages, and coordinate lead handoffs for discovery-call workflows.",
+        "Conducted personalized social media outreach, lead generation, follow-ups, and pipeline management while maintaining accurate CRM and spreadsheet records.",
+        "Prepared EOD/EOW reports, track prospect stages, and coordinate lead handoffs for discovery-call workflows.",
       ],
       skills: ["Lead Generation", "Outreach", "CRM", "Pipeline Management"],
     },
